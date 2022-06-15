@@ -30,29 +30,28 @@ module.exports = function(config) {
     mode: 'development',
   };
   c.webpack.module = {
-    rules: [
+    rules: []
+  };
+  c.webpack.module.rules.push({
+    test: /\.ts$/i,
+    use: [
       {
-        test: /\.ts$/i,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              compilerOptions: {
-                module: 'ESNext',
-                target: 'ES2015'
-              },
-              transpileOnly: true
-            }
-          }
-        ]
-      },
-      {
-        enforce: 'post',
-        test: /\.test\.ts$/,
-        use: ['webpack-espower-loader']
+        loader: 'ts-loader',
+        options: {
+          compilerOptions: {
+            module: 'ESNext',
+            target: 'ES2015'
+          },
+          transpileOnly: true
+        }
       }
     ]
-  };
+  });
+  c.webpack.module.rules.push({
+    enforce: 'post',
+    test: /\.test\.ts$/,
+    use: ['webpack-espower-loader']
+  });
   c.webpack.plugins = [
     // NOTE: util has `process.env.NODE_DEBUG`
     new webpack.DefinePlugin({
